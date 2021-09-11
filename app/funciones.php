@@ -1,6 +1,6 @@
 <?php 
 	require_once ('conexion.php');
-
+	
 	function listarEmpleados(){
 
 		$cnx = new Conexion();
@@ -9,7 +9,7 @@
 
 	    $cnx->exec("SET CHARACTER SET utf8"); 
 
-		$sql  = "SELECT empleados.nombre AS empleado, email, sexo, areas.nombre AS area, CASE boletin WHEN 0 THEN 'NO' WHEN 1 THEN 'SI' END AS boletin, descripcion FROM empleados INNER JOIN areas on empleados.area_id = areas.id";
+		$sql  = "SELECT empleados.id as id, empleados.nombre AS empleado, email, sexo, areas.nombre AS area, CASE boletin WHEN 0 THEN 'NO' WHEN 1 THEN 'SI' END AS boletin, descripcion FROM empleados INNER JOIN areas on empleados.area_id = areas.id";
 
 		$r = $cnx->prepare($sql);
 		$r->execute();

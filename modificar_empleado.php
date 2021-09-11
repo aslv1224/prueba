@@ -1,10 +1,24 @@
 <?php 
-	require 'app\funciones.php';
+	require 'app/empleado.php';
+	require 'app/funciones.php';
 
-	$roles = leerRoles();
-	$areas = leerAreas();
+	
+
+
+	$id = $_GET['id'];
+	if($id==''){
+		header('Location: lista_empleados.php');
+	}else{
+
+		$empleado= new Empleado();
+		
 	//print_r($roles);
-	//print_r($areas);
+	    $emp=$empleado->traerEmpl($id);
+
+		$roles = leerRoles();
+		$areas = leerAreas();
+	}
+	
 
 	
  ?>
@@ -14,35 +28,29 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Nuevo Empleado</title>
+	<title>Modificar Empleado</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 </head>
 <body>
 	<section class="container">
-		<h1>Crear empleado</h1>
-		<div class=" d-grid gap-2 d-md-flex justify-content-md-end">
-		  
-		  <a href="lista_empleados.php" class="btn btn-primary" type="button"><i class="fas fa-list-alt"></i> Lista de empleados</a>
-
-		</div>
-		<br>
+		<h1>Modificar empleado</h1>
 		<div class="alert alert-primary" >
   			Los campos con * son obligatorios
 		</div>
 		<div class="formulario">
 			<form id="empleado" class="empleado" method="post">
-
+			<input type="hidden" name="cod" id="cod" value='<?php echo $emp['id']; ?>'>	
 			 <div class="form-group row">
 			    <label for="inputNombre" class="col-sm-2 col-form-label"><b>Nombre *</b></label>
 			    <div class="col-sm-10">
-			      <input type="text" class="form-control" id="inputNombre" placeholder="Nombre completo"  name="nombre">
+			      <input type="text" class="form-control" id="inputNombre" placeholder="Nombre completo"  name="nombre" value='<?php echo $emp['nombre'] ?>'>
 			    </div>
 			  </div>		
 			  <br>
 			  <div class="form-group row">
 			    <label for="inputEmail" class="col-sm-2 col-form-label"><b>Email*</b></label>
 			    <div class="col-sm-10">
-			      <input type="email" class="form-control" id="inputEmail" placeholder="Email"  name="email">
+			      <input type="email" class="form-control" id="inputEmail" placeholder="Email"  name="email" value='<?php echo $emp['email'] ?>'>
 			    </div>
 			  </div>
 			  <br>
@@ -77,7 +85,7 @@
 			  		<?php 
 			  			foreach ($areas as $area ) {
 
-								echo "<option  value=".$area['id'].">".$area['nombre']."</option>";
+								echo "<option value=".$area['id'].">".$area['nombre']."</option>";
 		
 						}
 			  		 ?>	
@@ -108,8 +116,8 @@
 			      	<?php 
 			  			foreach ($roles as $rol ) {
 
-								
-								echo "<input class='form-check-input' name='rol' type='checkbox' id='rol' value='".$rol['id']."'>
+
+								echo "<input class='form-check-input' type='checkbox' id='rol' value='".$rol['id']."' name='rol'>
 								<label class='form-check-label' for='rol'>".$rol['nombre']."</label><br>"
 									
 								;
@@ -121,13 +129,13 @@
 			  </div>
 			  <div class="form-group ">
 			  	<label for="desc" class="form-label col-sm-2"><b>Descripcion*</b></label>
-			  	<div class="col-sm-10"><textarea class="form-control " id="desc" rows="3" required="" name="desc"></textarea></div>
+			  	<div class="col-sm-10"><textarea class="form-control " id="desc" rows="3" name="desc" required="" ><?php echo $emp['descripcion'] ?></textarea></div>
   				
 			  </div>
 			  <br>
 			  <div class="form-group row">
 			    <div class="col-sm-10">
-			      <button type="submit" class="btn btn-primary" id="btnCe">Crear</button>
+			      <button type="submit" class="btn btn-primary" id="btnCe">Actualizar</button>
 			    </div>
 			  </div>
 			</form>
@@ -137,7 +145,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-<script src="https://kit.fontawesome.com/3a18c9cc12.js" crossorigin="anonymous"></script>
+
 
 <script>
 	$(document).ready(function(){
@@ -145,27 +153,22 @@
 	var formulario = document.getElementById('empleado');
 	formulario.addEventListener('submit',function(e){
 		e.preventDefault();
+
 		
-
+		
 		var datos = new FormData(formulario);
+		console.log(datos.get('cod'))
 
-		// console.log(datos.get('nombre'))
-		// console.log(datos.get('email'))
-		// console.log(datos.get('sexo'))
-		// console.log(datos.get('area'))
-		// console.log(datos.get('boletin'))
-		// console.log(datos.get('rol'))
-		// console.log(datos.get('desc'))
-
-		fetch('app/inserta_empleado.php',{
+		fetch('app/actualiza_empleado.php',{
 			method: 'POST',
 			body: datos
 		})
 		.then(res => res.json())
 		.then(data => {
 			alert(data);
-			formulario.reset();
+			window.location.replace("lista_empleados.php");
 		})
+
 	})	
 
 

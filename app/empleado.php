@@ -28,12 +28,53 @@ class Empleado {
 		return 1;
 	}
 
-	function actualizar(){
+	function traerEmpl($id){
+		$cnx = new Conexion();
 
+		$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+	    $cnx->exec("SET CHARACTER SET utf8"); 
+
+		$sql  = "SELECT id, nombre, email, sexo, area_id, boletin, descripcion FROM empleados WHERE id=?";
+		$prm=array($id);
+		$r = $cnx->prepare($sql);
+		$r->execute($prm);
+	  	
+		$registro = $r->fetch(PDO::FETCH_ASSOC);
+
+		return $registro;
 	}
 
-	function eliminar(){
+	function actualizar($id,$nombre,$email,$sexo,$area,$rol,$boletin,$desc){
+		$cnx = new Conexion();
 
+		$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		
+	    $cnx->exec("SET CHARACTER SET utf8"); 
+
+		$sql  = "UPDATE empleados SET nombre =?,email=?,sexo=?,area_id=?,boletin=?,descripcion=? WHERE id=$id";
+		$ar=array($nombre,$email,$sexo,$area,$boletin,$desc);
+
+		$r = $cnx->prepare($sql);
+	  
+		$r->execute($ar);
+
+		return 1;
+	}
+
+	function eliminar($id){
+		$cnx = new Conexion();
+
+		$cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+	    $cnx->exec("SET CHARACTER SET utf8"); 
+
+		$sql  = "DELETE FROM empleados WHERE id = ?";
+		$prm=array($id);
+		$r = $cnx->prepare($sql);
+		$r->execute($prm);
+
+		return 1;
 	}
 
 	
@@ -42,34 +83,7 @@ class Empleado {
 
 }
 
-$nombre = $_POST['nombre'];
-$email =  $_POST['email'];
-$sexo = $_POST['email'];	
-$area= $_POST['area'];
-$rol= $_POST['rol'];
-$boletin= $_POST['boletin'];
-$desc= $_POST['desc'];
 
-
-
-//se pueden validar el resto pero no me alcanzo el tiempo
-if($nombre ==='' ||  $email === ''){
- echo json_encode("Datos vacios");
-}else{
-
-if ($_POST['boletin'] === null) {
-	$boletin = 0;
-}	
-
- $empleado = new Empleado();
- $res = $empleado->crear($nombre,$email,$sexo,$area,$rol,$boletin,$desc);
- if($res==1){
- 	echo json_encode($res);
- }else{
- 	echo json_encode("No llegaron los datos");
- }
- 
-}
 
 
 

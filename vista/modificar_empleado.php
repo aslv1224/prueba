@@ -1,10 +1,18 @@
 <?php 
-	require 'app\funciones.php';
+	require 'app/empleado.php';
 
-	$roles = leerRoles();
-	$areas = leerAreas();
+	$id = $_GET['id'];
+	if($id==''){
+		header('Location: http:localhost/prueba/');
+	}else{
+
+		$empleado= new Empleado($id);
+		
 	//print_r($roles);
 	//print_r($areas);
+
+	}
+	
 
 	
  ?>
@@ -20,12 +28,6 @@
 <body>
 	<section class="container">
 		<h1>Crear empleado</h1>
-		<div class=" d-grid gap-2 d-md-flex justify-content-md-end">
-		  
-		  <a href="lista_empleados.php" class="btn btn-primary" type="button"><i class="fas fa-list-alt"></i> Lista de empleados</a>
-
-		</div>
-		<br>
 		<div class="alert alert-primary" >
   			Los campos con * son obligatorios
 		</div>
@@ -72,12 +74,12 @@
 			  		<label class="col-sm-2" for="area"><b>Area*</b></label>
 			  	
 			  	<div class="col-sm-10">
-			  		<select class="form-control" id="area" name="area">
+			  		<select class="form-control" id="Area">
 
 			  		<?php 
 			  			foreach ($areas as $area ) {
 
-								echo "<option  value=".$area['id'].">".$area['nombre']."</option>";
+								echo "<option value=".$area['id'].">".$area['nombre']."</option>";
 		
 						}
 			  		 ?>	
@@ -109,7 +111,7 @@
 			  			foreach ($roles as $rol ) {
 
 								
-								echo "<input class='form-check-input' name='rol' type='checkbox' id='rol' value='".$rol['id']."'>
+								echo "<input class='form-check-input' type='checkbox' id='rol' value='".$rol['id']."'>
 								<label class='form-check-label' for='rol'>".$rol['nombre']."</label><br>"
 									
 								;
@@ -121,7 +123,7 @@
 			  </div>
 			  <div class="form-group ">
 			  	<label for="desc" class="form-label col-sm-2"><b>Descripcion*</b></label>
-			  	<div class="col-sm-10"><textarea class="form-control " id="desc" rows="3" required="" name="desc"></textarea></div>
+			  	<div class="col-sm-10"><textarea class="form-control " id="desc" rows="3" required=""></textarea></div>
   				
 			  </div>
 			  <br>
@@ -137,7 +139,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-<script src="https://kit.fontawesome.com/3a18c9cc12.js" crossorigin="anonymous"></script>
+
 
 <script>
 	$(document).ready(function(){
@@ -145,28 +147,19 @@
 	var formulario = document.getElementById('empleado');
 	formulario.addEventListener('submit',function(e){
 		e.preventDefault();
-		
-
+		alert("medio click");
 		var datos = new FormData(formulario);
+		console.log(datos.get('nombre'))
+		console.log(datos.get('nombre'))
 
-		// console.log(datos.get('nombre'))
-		// console.log(datos.get('email'))
-		// console.log(datos.get('sexo'))
-		// console.log(datos.get('area'))
-		// console.log(datos.get('boletin'))
-		// console.log(datos.get('rol'))
-		// console.log(datos.get('desc'))
-
-		fetch('app/inserta_empleado.php',{
-			method: 'POST',
-			body: datos
-		})
-		.then(res => res.json())
-		.then(data => {
-			alert(data);
-			formulario.reset();
-		})
 	})	
+
+
+
+
+
+
+
 
 
 	  $("#empleado").validate({

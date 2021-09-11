@@ -23,7 +23,16 @@
 		  
 		  <a href="index.php" class="btn btn-primary" type="button">Nuevo empleado +</a>
 		</div>
+
+		
 		<div class="col-md-10">
+			<br>
+			<?php 
+				if( isset($_GET['del'])){
+					echo "<div class='alert alert-success' >Empleado eliminado</div>";
+				}
+		 	?>
+		 	<br>
 			<table class="table table-striped">
 				<thead>
 					<th><i class="fas fa-user"></i> Nombre</th>
@@ -44,8 +53,8 @@
 										<td>".$empleado['sexo']."</td>
 										<td>".$empleado['area']."</td>
 										<td>".$empleado['boletin']."</td>
-										<td><a href='#'><i class='far fa-edit'></i></a></td>
-										<td><a href='#' data-isd><i class='fas fa-trash'></i></a></td>
+										<td><a href='modificar_empleado.php?id=".$empleado['id']."' id='modificar' data-id=".$empleado['id']."><i class='far fa-edit'></i></a></td>
+										<td><a href='app/elimina_empleado.php?id=".$empleado['id']."' id='eliminar' data-id='".$empleado['id']."'><i class='fas fa-trash'></i></a></td>
 								 </tr>";
 						}
 					 ?>
@@ -61,7 +70,9 @@
 <script src="https://kit.fontawesome.com/3a18c9cc12.js" crossorigin="anonymous"></script>
 	
 <script type="text/javascript">
-	
+	$(document).ready(function(){
+
+	});
 </script>
 
 </html>
