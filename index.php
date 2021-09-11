@@ -139,13 +139,13 @@
 	var formulario = document.getElementById('empleado');
 	formulario.addEventListener('submit',function(e){
 		e.preventDefault();
-		alert("medio click");
+		
 
 		var datos = new FormData(formulario);
 
 		// console.log(datos.get('nombre'))
 		// console.log(datos.get('email'))
-		console.log(datos.get('sexo'))
+		// console.log(datos.get('sexo'))
 		// console.log(datos.get('area'))
 		// console.log(datos.get('boletin'))
 		// console.log(datos.get('rol'))

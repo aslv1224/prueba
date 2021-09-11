@@ -25,7 +25,7 @@ class Empleado {
 	  
 		$r->execute([$nombre,$email,$sexo,$area,$boletin,$desc]);
 
-		
+		return 1;
 	}
 
 	function actualizar(){
@@ -36,7 +36,7 @@ class Empleado {
 
 	}
 
-	function listar(){}
+	
 
 
 
@@ -50,14 +50,25 @@ $rol= $_POST['rol'];
 $boletin= $_POST['boletin'];
 $desc= $_POST['desc'];
 
+
+
 //se pueden validar el resto pero no me alcanzo el tiempo
 if($nombre ==='' ||  $email === ''){
  echo json_encode("Datos vacios");
 }else{
 
+if ($_POST['boletin'] === null) {
+	$boletin = 0;
+}	
+
  $empleado = new Empleado();
  $res = $empleado->crear($nombre,$email,$sexo,$area,$rol,$boletin,$desc);
- echo json_encode("llegaron los datos".$desc);
+ if($res==1){
+ 	echo json_encode($res);
+ }else{
+ 	echo json_encode("No llegaron los datos");
+ }
+ 
 }
 
 
