@@ -20,6 +20,12 @@
 <body>
 	<section class="container">
 		<h1>Crear empleado</h1>
+		<div class=" d-grid gap-2 d-md-flex justify-content-md-end">
+		  
+		  <a href="lista_empleados.php" class="btn btn-primary" type="button"><i class="fas fa-list-alt"></i> Lista de empleados</a>
+
+		</div>
+		<br>
 		<div class="alert alert-primary" >
   			Los campos con * son obligatorios
 		</div>
@@ -131,7 +137,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
-
+<script src="https://kit.fontawesome.com/3a18c9cc12.js" crossorigin="anonymous"></script>
 
 <script>
 	$(document).ready(function(){
